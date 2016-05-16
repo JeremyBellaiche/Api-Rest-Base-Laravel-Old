@@ -36,7 +36,7 @@ class ChatController extends Controller
 		if(!$response)
 	        throw new NotFoundHttpException; 
 
-		return $response->messages;
+		return json_encode($response->messages);
 
 
 	}

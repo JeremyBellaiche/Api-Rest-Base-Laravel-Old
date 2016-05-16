@@ -17,6 +17,6 @@ class Message extends Model
 
     public function attachments()
     {
-    	return $this->hasMany('\App\Models\Message_Attachment', 'id', 'fk_message_id');
+    	return $this->hasMany('\App\Models\Message_Attachment', 'fk_message_id', 'id');
     }
 }
