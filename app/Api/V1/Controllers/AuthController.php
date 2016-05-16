@@ -20,9 +20,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
-        json_encode($request->all());
-
         $credentials = $request->only(['email', 'password']);
 
         $validator = Validator::make($credentials, [
@@ -49,7 +46,7 @@ class AuthController extends Controller
     {
 
 
-
+        
         $signupFields = Config::get('boilerplate.signup_fields');
         $hasToReleaseToken = Config::get('boilerplate.signup_token_release');
 
