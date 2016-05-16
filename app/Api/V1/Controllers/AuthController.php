@@ -21,7 +21,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
 
-        dd($request->all());
+        json_encode($request->all());
 
         $credentials = $request->only(['email', 'password']);
 
