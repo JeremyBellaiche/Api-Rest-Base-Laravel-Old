@@ -36,8 +36,8 @@ class ChatController extends Controller
 
 		if(!$response){
             $error = [
-                'message' => 'Chat can\'t be found',
-            ]
+                'message' => 'Chat can\'t be found'
+            ];
 
             return json_encode($error);
         }
