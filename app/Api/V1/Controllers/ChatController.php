@@ -34,9 +34,14 @@ class ChatController extends Controller
 		
 		$response = Chat::where('id', $id)->with('messages')->first();
 
-		if(!$response)
-	        throw new NotFoundHttpException; 
+		if(!$response){
+            $error = [
+                'message' => 'Chat can\'t be found',
+            ]
 
+            return json_encode($error);
+        }
+	        
 		return json_encode($response->messages);
 
 
