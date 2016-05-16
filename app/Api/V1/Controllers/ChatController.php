@@ -7,6 +7,7 @@ use JWTAuth;
 use Dingo\Api\Routing\Helpers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Dingo\Api\Exception\ValidationHttpException;
 
 use App\Models\Chat;
 use App\Models\Chat_User;
