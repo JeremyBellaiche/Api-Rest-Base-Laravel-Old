@@ -36,7 +36,17 @@ class User extends Authenticatable
 
     public function books()
     {
-        return $this->hasMany('App\Book');
+        return $this->hasMany('App\Models\Book');
+    }
+
+
+    public function chats()
+    {
+        return $this->hasMany('App\Models\Chat_User', 'fk_user_id', 'id')
+                    ->with('chat');                    
+        // $chats = \App\Models\Chat_User::where('fk_user_id', $this->id)->with(['chat'])->get();
+
+        // return $chats;
     }
     
 }

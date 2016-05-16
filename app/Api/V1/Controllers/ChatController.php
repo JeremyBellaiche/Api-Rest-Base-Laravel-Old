@@ -4,85 +4,100 @@ namespace App\Api\V1\Controllers;
 
 use Illuminate\Http\Request;
 use JWTAuth;
-use App\Book;
 use Dingo\Api\Routing\Helpers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class BookController extends Controller
+use App\Models\Chat;
+use App\Models\Chat_User;
+
+class ChatController extends Controller
 {
     use Helpers;
 
 
     public function index()
 	{
-	    $currentUser = JWTAuth::parseToken()->authenticate();
-	    return $currentUser
-	        ->books()
-	        ->orderBy('created_at', 'DESC')
+		$currentUser = JWTAuth::parseToken()->authenticate()
+	        ->chats()
 	        ->get()
 	        ->toArray();
+
+	    return $currentUser;
+
 	}
 
-
-	public function store(Request $request)
-	{
-	    $currentUser = JWTAuth::parseToken()->authenticate();
-
-	    $book = new Book;
-
-	    $book->title = $request->get('title');
-	    $book->author_name = $request->get('author_name');
-	    $book->pages_count = $request->get('pages_count');
-
-	    if($currentUser->books()->save($book))
-	        return $this->response->created();
-	    else
-	        return $this->response->error('could_not_create_book', 500);
-	}
-
-	
 	public function show($id)
 	{
-	    $currentUser = JWTAuth::parseToken()->authenticate();
+		$currentUser = JWTAuth::parseToken()->authenticate();
+		
+		$response = Chat::where('id', $id)->with('messages')->first();
 
-	    $book = $currentUser->books()->find($id);
-
-	    if(!$book)
+		if(!$response)
 	        throw new NotFoundHttpException; 
 
-	    return $book;
+		return $response->messages;
+
+
 	}
 
-	public function update(Request $request, $id)
+
+	public function create(Request $request)
 	{
-	    $currentUser = JWTAuth::parseToken()->authenticate();
 
-	    $book = $currentUser->books()->find($id);
-	    if(!$book)
-	        throw new NotFoundHttpException;
+		//$currentUser = JWTAuth::parseToken()->authenticate();
 
-	    $book->fill($request->all());
+        $currentUser = JWTAuth::parseToken()->authenticate();
 
-	    if($book->save())
-	        return $this->response->noContent();
-	    else
-	        return $this->response->error('could_not_update_book', 500);
-	}
+        if(!$request->has('users')){
+	        return $this->response->error('users_are_missing', 500);
+        }
 
-	public function destroy($id)
-	{
-	    $currentUser = JWTAuth::parseToken()->authenticate();
+        dd($request->get('users'));
 
-	    $book = $currentUser->books()->find($id);
+        if(!$request->has('message')){
+	        return $this->response->error('message_is_missing', 500);
+        }
 
-	    if(!$book)
-	        throw new NotFoundHttpException;
+	    $chat = Chat::create([
+	    	'title'	=>	($request->has('title')? $request->get('title') : ''),
+	    	'fk_owner_id' => $currentUser->id
+	    ]);	
 
-	    if($book->delete())
-	        return $this->response->noContent();
-	    else
-	        return $this->response->error('could_not_delete_book', 500);
+
+        foreach ($request->get('users') as $user) {
+        	Chat_User::create([
+        		'fk_chat_id' => $chat->id,
+        		'fk_user_id' => $user->id
+        	]);
+        }
+
+        if($request->has('message')){
+        	
+        	$message = Message::create([
+        		'fk_chat_id'	=>	$chat->id,
+        		'fk_user_id'	=>	$currentUser->id,
+        		'msg_text'		=>	$request->message->text // $request->message->text
+        	]);
+
+        	if(isset($request->message->attachment)){
+        		foreach ($request->message->get('attachment') as $attachment) {
+        			Message_Attachment::create([
+        				'url' => $attachment->url,
+        				'fk_user_id' => $currentUser->id,
+        				'fk_message_id' => $message->id
+        			]);
+        		}
+        	}
+
+        };
+
+        $response = [
+        	'chat_id'	=>	$chat->id
+        ];
+
+        return $response;
+
 	}
 
 }
