@@ -51,19 +51,23 @@ class ChatController extends Controller
 	public function create(Request $request)
 	{
 
+      
+
+        
+
 		//$currentUser = JWTAuth::parseToken()->authenticate();
 
         $currentUser = JWTAuth::parseToken()->authenticate();
 
         if(!$request->has('users')){
-	        return $this->response->error('users_are_missing', 500);
+	        return $this->response->error('Users are missing', 500);
         }
 
-        dd($request->get('users'));
 
         if(!$request->has('message')){
-	        return $this->response->error('message_is_missing', 500);
+            return $this->response->error('Message is missing', 500);
         }
+
 
 	    $chat = Chat::create([
 	    	'title'	=>	($request->has('title')? $request->get('title') : ''),
