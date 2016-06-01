@@ -81,6 +81,8 @@ class ChatController extends Controller
         	]);
         }
 
+        return 'test';
+
         if($request->has('message')){
         	
         	$message = Message::create([
