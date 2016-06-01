@@ -58,12 +58,12 @@ class ChatController extends Controller
             return $this->response->error('Users are missing', 500);
         }
 
-        return 'THIS IS CREATE !!!'; 
 
         if(!$request->has('message')){
             return $this->response->error('Message is missing', 500);
         }
 
+        return 'THIS IS CREATE !!!'; 
 
 
 	    $chat = Chat::create([
