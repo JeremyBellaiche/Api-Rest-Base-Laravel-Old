@@ -27,7 +27,7 @@ class ChatController extends Controller
 
         $chats = [];
 
-        foreach ($currentUser->chats as $key => $chat) {
+        foreach ($currentUser['chats'] as $key => $chat) {
             array_push($chats, $chat);
         }
 
