@@ -25,7 +25,13 @@ class ChatController extends Controller
 	        ->get()
 	        ->toArray();
 
-	    return $currentUser;
+        $chats = [];
+
+        foreach ($currentUser->get('chats') as $key => $chat) {
+            array_push($chats, $chat);
+        }
+
+	    return json_encode($chats);
 
 	}
 
