@@ -31,6 +31,8 @@ class ChatController extends Controller
             array_push($chats, $chat);
         }
 
+        dd($chats);
+
 	    return json_encode($chats);
 
 	}
