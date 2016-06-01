@@ -88,8 +88,8 @@ class ChatController extends Controller
             $chat->fk_last_entry = $message->id;
             $chat->save();
 
-        	if(isset($request->get('message')['attachment']) AND  $request->get('message')['attachment'] !== null){
-        		foreach ($request->get('message')['attachment'] as $attachment) {
+        	if(isset($request->get('message')['attachments']) AND  $request->get('message')['attachments'] !== null){
+        		foreach ($request->get('message')['attachments'] as $attachment) {
                     Message_Attachment::create([
         				'url' => $attachment['url'],
         				'fk_user_id' => $currentUser->id,
@@ -145,8 +145,8 @@ class ChatController extends Controller
         $chat->fk_last_entry = $message->id;
         $chat->save();
 
-        if(isset($request->get('message')['attachment']) AND  $request->get('message')['attachment'] !== null){
-            foreach ($request->get('message')['attachment'] as $attachment) {
+        if(isset($request->get('message')['attachments']) AND  $request->get('message')['attachments'] !== null){
+            foreach ($request->get('message')['attachments'] as $attachment) {
                 Message_Attachment::create([
                     'url' => $attachment['url'],
                     'fk_user_id' => $currentUser->id,
