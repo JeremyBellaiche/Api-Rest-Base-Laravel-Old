@@ -76,7 +76,7 @@ class ChatController extends Controller
 
 
         foreach ($request->get('users') as $friend) {
-            return $friend;
+            return 'FRIEND ID : '.$friend->id;
 
             if(isset($friend->id)){            
                 Chat_User::create([
