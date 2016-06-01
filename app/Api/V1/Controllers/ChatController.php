@@ -63,13 +63,12 @@ class ChatController extends Controller
             return $this->response->error('Message is missing', 500);
         }
 
-
 	    $chat = Chat::create([
-	    	'title'	=>	(!empty($request->has('chat')['title'])? $request->get('chat')['title'] : ''),
+	    	'title'	=>	(!empty($request->get('chat')['title'])? $request->get('chat')['title'] : ''),
 	    	'fk_owner_id' => $currentUser->id
 	    ]);	
 
-        return 'the chat is create';
+        return 'the chat is created';
 
         Chat_User::create([
             'fk_chat_id' => $chat->id,
