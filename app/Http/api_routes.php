@@ -35,7 +35,11 @@ $api->version('v1', function ($api) {
 		$api->get('chats', 'App\Api\V1\Controllers\ChatController@index');
 		$api->get('chats/{id}', 'App\Api\V1\Controllers\ChatController@show');
 		$api->post('chats/create', 'App\Api\V1\Controllers\ChatController@create');
+	});
 
+	$api->group([], function($api){
+		$api->get('users', '\App\Api\V1\Controllers\UserController@index');
+		$api->post('users/search', '\App\Api\V1\Controllers\UserController@search');
 	});
 
 });
