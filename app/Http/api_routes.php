@@ -22,7 +22,7 @@ $api->version('v1', function ($api) {
 	// Chat
 	$api->group([], function($api){
 		$api->get('chats', 'App\Api\V1\Controllers\ChatController@index');
-		$api->post('chats/create', 'App\Api\V1\Controllers\ChatController@create');
+		$api->put('chats/create', 'App\Api\V1\Controllers\ChatController@create');
 		$api->get('chats/{id}', 'App\Api\V1\Controllers\ChatController@show');
 	});
 
