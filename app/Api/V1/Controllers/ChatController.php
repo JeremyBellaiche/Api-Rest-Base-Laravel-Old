@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Dingo\Api\Exception\ValidationHttpException;
 use App\Models\Message;
+use App\Models\Message_Attachment;
 use App\Models\Chat;
 use App\Models\Chat_User;
 
