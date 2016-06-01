@@ -19,22 +19,11 @@ $api->version('v1', function ($api) {
 		return \App\User::all();
 	});
 
-
-	// Books
-	$api->group(['middleware' => 'api.auth'], function ($api) {
-		$api->get('books', 'App\Api\V1\Controllers\BookController@index');
-		$api->get('books/{id}', 'App\Api\V1\Controllers\BookController@show');
-		$api->post('books', 'App\Api\V1\Controllers\BookController@store');
-		$api->put('books/{id}', 'App\Api\V1\Controllers\BookController@update');
-		$api->delete('books/{id}', 'App\Api\V1\Controllers\BookController@destroy');
-	});
-	// $api->resource('books', 'App\Api\V1\Controllers\BookController');
-
 	// Chat
 	$api->group([], function($api){
 		$api->get('chats', 'App\Api\V1\Controllers\ChatController@index');
-		$api->get('chats/{id}', 'App\Api\V1\Controllers\ChatController@show');
 		$api->post('chats/create', 'App\Api\V1\Controllers\ChatController@create');
+		$api->get('chats/{id}', 'App\Api\V1\Controllers\ChatController@show');
 	});
 
 	$api->group([], function($api){
