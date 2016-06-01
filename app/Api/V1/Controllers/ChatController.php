@@ -27,11 +27,9 @@ class ChatController extends Controller
 
         $chats = [];
 
-        foreach ($currentUser['chats'] as $key => $chat) {
-            array_push($chats, $chat);
+        foreach ($currentUser as $key => $user) {
+            array_push($chats, $user['chat']);
         }
-
-        dd($chats);
 
 	    return json_encode($chats);
 
