@@ -50,7 +50,7 @@ class ChatController extends Controller
             return json_encode($error);
         }
 	        
-		return json_encode($response->messages);
+		return json_encode(['messages' => $response->messages]);
 
 
 	}

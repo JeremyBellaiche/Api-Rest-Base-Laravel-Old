@@ -17,7 +17,7 @@ class Chat extends Model
     }
 
     public function messages(){
-    	return $this->hasMany('\App\Models\Message', 'fk_chat_id', 'id')->with('user')->with('attachments');
+    	return $this->hasMany('\App\Models\Message', 'fk_chat_id', 'id')->with('attachments');
     }
 
 }
