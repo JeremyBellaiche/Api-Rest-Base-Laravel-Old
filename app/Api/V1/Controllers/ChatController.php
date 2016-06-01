@@ -155,6 +155,9 @@ class ChatController extends Controller
             }
         }
 
+        // Trigger
+        Chat_User::where(['fk_chat_id' => $chatId, 'fk_user_id' => $currentUser->id])->update(['fk_last_message_seen' => $message->id]);
+
         return json_encode($message);
 
 
