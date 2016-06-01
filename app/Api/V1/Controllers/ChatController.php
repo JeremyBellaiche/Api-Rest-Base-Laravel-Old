@@ -92,7 +92,7 @@ class ChatController extends Controller
 
 
         	if(isset($request->get('message')['attachment']) AND  $request->get('message')['attachment'] !== null){
-        		foreach ($request->message->get('attachment') as $attachment) {
+        		foreach ($request->get('message')['attachment'] as $attachment) {
         			Message_Attachment::create([
         				'url' => $attachment['url'],
         				'fk_user_id' => $currentUser->id,
