@@ -31,8 +31,7 @@ class ChatController extends Controller
 	public function show($id)
 	{
 
-        return 'IT IS SHOW';
-		$currentUser = JWTAuth::parseToken()->authenticate();
+        $currentUser = JWTAuth::parseToken()->authenticate();
 		
 		$response = Chat::where('id', $id)->with('messages')->first();
 
@@ -52,13 +51,6 @@ class ChatController extends Controller
 
 	public function create(Request $request)
 	{
-
-      
-        return 'IT IS CREATE';
-        
-
-		//$currentUser = JWTAuth::parseToken()->authenticate();
-
         $currentUser = JWTAuth::parseToken()->authenticate();
 
         if(!$request->has('users')){

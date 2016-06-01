@@ -20,9 +20,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
-        return 'test';
-
         $credentials = $request->only(['email', 'password']);
 
         $validator = Validator::make($credentials, [
