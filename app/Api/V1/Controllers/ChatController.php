@@ -74,7 +74,6 @@ class ChatController extends Controller
             'fk_user_id' => $currentUser->id
         ]);
 
-        return 'the chat is created';
 
         foreach ($request->get('users') as $user) {
             Chat_User::create([
@@ -83,6 +82,7 @@ class ChatController extends Controller
             ]);
         }
 
+        return 'the chat is created';
 
         if($request->has('message')){
         	
