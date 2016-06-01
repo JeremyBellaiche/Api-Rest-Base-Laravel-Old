@@ -76,9 +76,8 @@ class ChatController extends Controller
 
 
         foreach ($request->get('users') as $user) {
-            return $user;
             Chat_User::create([
-                'fk_chat_id' => $chat->id,
+                'fk_chat_id' => '4',
                 'fk_user_id' => $user->id
             ]);
         }
