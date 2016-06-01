@@ -64,25 +64,13 @@ class ChatController extends Controller
             return $this->response->error('Message is missing', 500);
         }
 
+        // Create chat
 	    $chat = Chat::create([
 	    	'title'	=>	(!empty($request->get('chat')['title'])? $request->get('chat')['title'] : ''),
 	    	'fk_owner_id' => $currentUser->id
 	    ]);	
 
-
-        Chat_User::create([
-            'fk_chat_id' => $chat->id,
-            'fk_user_id' => $currentUser->id
-        ]);
-
-
-        foreach ($request->get('users') as $friend) {
-            Chat_User::create([
-                'fk_chat_id' => $chat->id,
-                'fk_user_id' => $friend['id']
-            ]);
-        }
-
+        // Message
         if($request->has('message')){
         	
         	$message = Message::create([
@@ -90,6 +78,8 @@ class ChatController extends Controller
         		'fk_user_id'	=>	$currentUser->id,
         		'msg_text'		=>	$request->get('message')['msg_text'] // $request->message->text
         	]);
+
+            $chat->fk_last_entry = $message->id;
 
 
         	if(isset($request->get('message')['attachment']) AND  $request->get('message')['attachment'] !== null){
@@ -103,6 +93,21 @@ class ChatController extends Controller
         	}
 
         };
+
+        // Create chat users
+        Chat_User::create([
+            'fk_chat_id' => $chat->id,
+            'fk_user_id' => $currentUser->id,
+            'fk_last_message_seen' => $message->id
+        ]);
+
+
+        foreach ($request->get('users') as $friend) {
+            Chat_User::create([
+                'fk_chat_id' => $chat->id,
+                'fk_user_id' => $friend['id']
+            ]);
+        }
 
         $response = [
         	'chat_id'	=>	$chat->id
