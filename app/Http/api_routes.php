@@ -24,6 +24,7 @@ $api->version('v1', function ($api) {
 		$api->get('chats', 'App\Api\V1\Controllers\ChatController@index');
 		$api->post('chats/create', 'App\Api\V1\Controllers\ChatController@create');
 		$api->get('chats/{id}', 'App\Api\V1\Controllers\ChatController@show');
+		$api->post('chats/{id}/send', 'App\Api\V1\Controllers\ChatsController@sendMessage');
 //	});
 
 	$api->group([], function($api){

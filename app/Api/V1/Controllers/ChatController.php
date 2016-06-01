@@ -123,4 +123,48 @@ class ChatController extends Controller
 
 	}
 
+    public function sendMessage(Request $request, $chatId){
+
+        $currentUser = JWTAuth::parseToken()->authenticate();
+
+        if(!$request->has('message')){
+            $error = [
+                'message' => 'Message must be added'
+            ];
+            return json_encode($error);
+        }
+
+        if(!$request->has('chatId')){
+            $error = [
+                'message' => 'Chat can\'t be found'
+            ];
+            return json_encode($error);
+        }
+
+        $chat = Chat::findOrFail($id);
+        
+        $message = Message::create([
+            'fk_chat_id'    =>  $chat->id,
+            'fk_user_id'    =>  $currentUser->id,
+            'msg_text'      =>  $request->get('message')['msg_text'] // $request->message->text
+        ]);
+
+        $chat->fk_last_entry = $message->id;
+        $chat->save();
+
+        if(isset($request->get('message')['attachment']) AND  $request->get('message')['attachment'] !== null){
+            foreach ($request->get('message')['attachment'] as $attachment) {
+                Message_Attachment::create([
+                    'url' => $attachment['url'],
+                    'fk_user_id' => $currentUser->id,
+                    'fk_message_id' => $message->id
+                ]);
+            }
+        }
+
+        return json_encode($message);
+
+
+    }
+
 }
