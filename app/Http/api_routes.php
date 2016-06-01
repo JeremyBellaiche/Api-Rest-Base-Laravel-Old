@@ -20,11 +20,11 @@ $api->version('v1', function ($api) {
 	});
 
 	// Chat
-	$api->group([], function($api){
+//	$api->group([], function($api){
 		$api->get('chats', 'App\Api\V1\Controllers\ChatController@index');
 		$api->post('chats/create', 'App\Api\V1\Controllers\ChatController@create');
 		$api->get('chats/{id}', 'App\Api\V1\Controllers\ChatController@show');
-	});
+//	});
 
 	$api->group([], function($api){
 		$api->get('users', '\App\Api\V1\Controllers\UserController@index');
