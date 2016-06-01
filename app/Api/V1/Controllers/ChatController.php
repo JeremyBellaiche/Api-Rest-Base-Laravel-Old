@@ -68,6 +68,8 @@ class ChatController extends Controller
         return 'THIS IS CREATE !!!'; 
 
 
+        dd($request->get('title'));
+
 	    $chat = Chat::create([
 	    	'title'	=>	($request->has('title')? $request->get('title') : ''),
 	    	'fk_owner_id' => $currentUser->id
