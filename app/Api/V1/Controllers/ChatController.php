@@ -134,14 +134,7 @@ class ChatController extends Controller
             return json_encode($error);
         }
 
-        if(!$request->has('chatId')){
-            $error = [
-                'message' => 'Chat can\'t be found'
-            ];
-            return json_encode($error);
-        }
-
-        $chat = Chat::findOrFail($id);
+        $chat = Chat::findOrFail($chatId);
         
         $message = Message::create([
             'fk_chat_id'    =>  $chat->id,
