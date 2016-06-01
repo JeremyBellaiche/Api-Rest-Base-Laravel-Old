@@ -51,14 +51,14 @@ class ChatController extends Controller
 
 	public function create(Request $request)
 	{
-        return 'THIS IS CREATE !!!'; 
 
         $currentUser = JWTAuth::parseToken()->authenticate();
 
         if(!$request->has('users')){
-	        return $this->response->error('Users are missing', 500);
+            return $this->response->error('Users are missing', 500);
         }
 
+        return 'THIS IS CREATE !!!'; 
 
         if(!$request->has('message')){
             return $this->response->error('Message is missing', 500);
