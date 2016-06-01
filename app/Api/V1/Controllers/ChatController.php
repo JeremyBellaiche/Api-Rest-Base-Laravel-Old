@@ -63,12 +63,7 @@ class ChatController extends Controller
             return $this->response->error('Message is missing', 500);
         }
 
-        return $request->all();
-
-        return 'THIS IS CREATE !!!'; 
-
-
-        dd($request->get('title'));
+        return ($request->get('title'));
 
 	    $chat = Chat::create([
 	    	'title'	=>	($request->has('title')? $request->get('title') : ''),
