@@ -80,7 +80,7 @@ class ChatController extends Controller
         	]);
 
             $chat->fk_last_entry = $message->id;
-
+            $chat->save();
 
         	if(isset($request->get('message')['attachment']) AND  $request->get('message')['attachment'] !== null){
         		foreach ($request->get('message')['attachment'] as $attachment) {
