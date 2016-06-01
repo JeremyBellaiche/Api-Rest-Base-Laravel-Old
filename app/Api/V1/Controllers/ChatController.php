@@ -52,7 +52,7 @@ class ChatController extends Controller
 	{
 
       
-
+        return 'ERROR';
         
 
 		//$currentUser = JWTAuth::parseToken()->authenticate();
