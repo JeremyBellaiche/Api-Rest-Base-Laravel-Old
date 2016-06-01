@@ -74,6 +74,11 @@ class ChatController extends Controller
 	    	'fk_owner_id' => $currentUser->id
 	    ]);	
 
+        Chat_User::create([
+            'fk_chat_id' => $chat->id,
+            'fk_user_id' => $currentUser->id
+        ]);
+
 
         foreach ($request->get('users') as $user) {
         	Chat_User::create([
