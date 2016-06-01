@@ -87,8 +87,9 @@ class ChatController extends Controller
         	$message = Message::create([
         		'fk_chat_id'	=>	$chat->id,
         		'fk_user_id'	=>	$currentUser->id,
-        		'msg_text'		=>	$request->message->text // $request->message->text
+        		'msg_text'		=>	$request->get('message')['msg_text'] // $request->message->text
         	]);
+
 
         	if(isset($request->message->attachment)){
         		foreach ($request->message->get('attachment') as $attachment) {
