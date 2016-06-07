@@ -38,8 +38,8 @@ class ChatController extends Controller
 	public function show($id)
 	{
 
-        $currentUser = JWTAuth::parseToken()->authenticate();
-		
+    $currentUser = JWTAuth::parseToken()->authenticate();
+
 		$response = Chat::where('id', $id)->with('messages')->first();
 
 		if(!$response){
@@ -49,7 +49,7 @@ class ChatController extends Controller
 
             return json_encode($error);
         }
-	        
+
 		return json_encode($response);
 
 
@@ -66,19 +66,19 @@ class ChatController extends Controller
         }
 
 
-        if(!$request->has('message')){
-            return $this->response->error('Message is missing', 500);
-        }
+        // if(!$request->has('message')){
+        //     return $this->response->error('Message is missing', 500);
+        // }
 
         // Create chat
 	    $chat = Chat::create([
 	    	'title'	=>	(!empty($request->get('chat')['title'])? $request->get('chat')['title'] : ''),
 	    	'fk_owner_id' => $currentUser->id
-	    ]);	
+	    ]);
 
         // Message
         if($request->has('message')){
-        	
+
         	$message = Message::create([
         		'fk_chat_id'	=>	$chat->id,
         		'fk_user_id'	=>	$currentUser->id,
@@ -100,23 +100,31 @@ class ChatController extends Controller
 
         };
 
+        $usersInChat = [];
+
         // Create chat users
-        Chat_User::create([
+        $newUser = Chat_User::create([
             'fk_chat_id' => $chat->id,
             'fk_user_id' => $currentUser->id,
             'fk_last_message_seen' => $message->id
         ]);
 
+        array_push($usersInChat, $newUser);
+
+
 
         foreach ($request->get('users') as $friend) {
-            Chat_User::create([
+            $newUser = Chat_User::create([
                 'fk_chat_id' => $chat->id,
                 'fk_user_id' => $friend['id']
             ]);
+            array_push($usersInChat, $newUser);
         }
 
         $response = [
-        	'chat_id'	=>	$chat->id
+        	'chat_id'	=>	$chat->id,
+          'title'   =>  $chat->title,
+          'users'   =>  $usersInChat
         ];
 
         return $response;
@@ -135,7 +143,7 @@ class ChatController extends Controller
         }
 
         $chat = Chat::findOrFail($chatId);
-        
+
         $message = Message::create([
             'fk_chat_id'    =>  $chat->id,
             'fk_user_id'    =>  $currentUser->id,
