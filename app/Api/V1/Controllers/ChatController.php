@@ -114,7 +114,7 @@ class ChatController extends Controller
                 'fk_chat_id' => $chat->id,
                 'fk_user_id' => $friend['id']
             ]);
-            array_push($usersInChat, User::where('id', $friend['id'])->select(['id', 'fname', 'lname'])->first() );
+            array_push($usersInChat, \App\User::where('id', $friend['id'])->select(['id', 'fname', 'lname'])->first() );
         }
 
         $response = [
