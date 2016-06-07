@@ -35,18 +35,38 @@ class AuthController extends Controller
             if (! $token = JWTAuth::attempt($credentials)) {
                 return $this->response->errorUnauthorized();
             }
+            if( ! $user = \Auth::attempt($credentials)){
+              return $this->response->errorUnauthorized();
+            }
         } catch (JWTException $e) {
             return $this->response->error('could_not_create_token', 500);
         }
 
-        return response()->json(compact('token'));
+        return response()->json([
+          'fname' =>  \Auth::user()->fname,
+          'lname' =>  \Auth::user()->lname,
+          'wallet' => [
+              'balance' => 20.00,
+              'currency' => 'currency_code'
+          ],
+          'plan' => [
+            [
+              'icon'  => 'URL',
+              'max'   => 'maximum value',
+              'current' => 'current value',
+              'unit'  =>  'unit name',
+              'name'  =>  'value name'
+            ]
+          ],
+          'token' => $token
+          ]);
     }
 
     public function signup(Request $request)
     {
 
 
-        
+
         $signupFields = Config::get('boilerplate.signup_fields');
         $hasToReleaseToken = Config::get('boilerplate.signup_token_release');
 
@@ -69,7 +89,7 @@ class AuthController extends Controller
         if($hasToReleaseToken) {
             return $this->login($request);
         }
-        
+
         return $this->response->created();
     }
 
@@ -110,7 +130,7 @@ class AuthController extends Controller
         if($validator->fails()) {
             throw new ValidationHttpException($validator->errors()->all());
         }
-        
+
         $response = Password::reset($credentials, function ($user, $password) {
             $user->password = $password;
             $user->save();
