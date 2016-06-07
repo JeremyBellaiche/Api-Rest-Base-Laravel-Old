@@ -47,15 +47,29 @@ class AuthController extends Controller
           'lname' =>  \Auth::user()->lname,
           'wallet' => [
               'balance' => 20.00,
-              'currency' => 'currency_code'
+              'currency' => '€'
           ],
           'plan' => [
             [
-              'icon'  => 'URL',
-              'max'   => 'maximum value',
-              'current' => 'current value',
-              'unit'  =>  'unit name',
-              'name'  =>  'value name'
+              'icon'  => 'http://google.com',
+              'max'   => 100,
+              'current' => 80,
+              'unit'  =>  'sms',
+              'name'  =>  'Pack SMS'
+            ],
+            [
+              'icon'  => 'http://google.com',
+              'max'   => 200,
+              'current' => 150,
+              'unit'  =>  'data',
+              'name'  =>  'Pack DATA'
+            ],
+            [
+              'icon'  => 'http://google.com',
+              'max'   => 300,
+              'current' => 290,
+              'unit'  =>  'minutes',
+              'name'  =>  'Pack Minutes'
             ]
           ],
           'token' => $token
