@@ -43,6 +43,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
+          'id' => \Auth::user()->id,
           'fname' =>  \Auth::user()->fname,
           'lname' =>  \Auth::user()->lname,
           'wallet' => [
@@ -73,7 +74,7 @@ class AuthController extends Controller
             ]
           ],
           'token' => $token
-          ]);
+        ]);
     }
 
     public function signup(Request $request)
