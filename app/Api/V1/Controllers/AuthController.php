@@ -73,7 +73,7 @@ class AuthController extends Controller
               'name'  =>  'Pack Minutes'
             ]
           ],
-          'token' => $token
+          'token' => $token,
         ]);
     }
 

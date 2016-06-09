@@ -16,6 +16,16 @@ class Chat_User extends Model
 			    	->with('users');
     }
 
+    public function getCreatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
+
+    public function getUpdatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
+
 
 
 }

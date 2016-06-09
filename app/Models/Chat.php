@@ -20,4 +20,14 @@ class Chat extends Model
     	return $this->hasMany('\App\Models\Message', 'fk_chat_id', 'id')->with('attachments');
     }
 
+    public function getCreatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
+
+    public function getUpdatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
+
 }

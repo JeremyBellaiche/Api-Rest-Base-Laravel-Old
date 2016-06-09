@@ -19,4 +19,14 @@ class Message extends Model
     {
     	return $this->hasMany('\App\Models\Message_Attachment', 'fk_message_id', 'id');
     }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
+
+    public function getUpdatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
 }

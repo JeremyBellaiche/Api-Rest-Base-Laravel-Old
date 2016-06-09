@@ -71,5 +71,16 @@ class User extends Authenticatable
         return $this->contacts_user_intended
                     ->merge($this->contacts_user_applicant);
     }
+
+
+    public function getCreatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
+
+    public function getUpdatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
     
 }
