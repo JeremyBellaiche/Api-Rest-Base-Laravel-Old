@@ -118,7 +118,7 @@ class ChatController extends Controller
         }
 
         $response = [
-        	'chat_id'	=>	$chat->id,
+        	'id'	=>	$chat->id,
           'title'   =>  $chat->title,
           'users'   =>  $usersInChat
         ];
