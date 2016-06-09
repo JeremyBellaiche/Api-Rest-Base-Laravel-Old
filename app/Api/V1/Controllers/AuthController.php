@@ -46,6 +46,7 @@ class AuthController extends Controller
           'id' => \Auth::user()->id,
           'fname' =>  \Auth::user()->fname,
           'lname' =>  \Auth::user()->lname,
+          'avatar'  =>  \Auth::user()->avatar,
           'wallet' => [
               'balance' => 20.00,
               'currency' => '€'
