@@ -163,8 +163,28 @@ class ChatController extends Controller
         Chat_User::where(['fk_chat_id' => $chatId, 'fk_user_id' => $currentUser->id])->update(['fk_last_message_seen' => $message->id]);
 
         return json_encode($message);
+    }
 
+    public function getUnreadMessages(Request $request, $id){
+        $currentUser = JWTAuth::parseToken()->authenticate();
 
+        $response = Chat::where('id', $id)->with('messages')->first();
+
+        if(!$response){
+            $error = [
+                'message' => 'Chat can\'t be found'
+            ];
+
+            return json_encode($error);
+        }
+
+        $lastMessageSeen = Chat_User::where([
+            'fk_chat_id' => $id,
+            'fk_user_id' => $currentUser->id,
+        ])->firstOrFail()->fk_last_message_seen;
+
+        $response = Message::where('id', '>', $lastMessageSeen)->where('fk_chat_id', $id)->get();
+        return json_encode($response);
     }
 
 }

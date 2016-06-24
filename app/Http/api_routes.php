@@ -28,6 +28,7 @@ $api->version('v1', function ($api) {
 		$api->post('/create', 'App\Api\V1\Controllers\ChatController@create');
 		$api->get('/{id}', 'App\Api\V1\Controllers\ChatController@show');
 		$api->post('/{id}/send', 'App\Api\V1\Controllers\ChatController@sendMessage');
+		$api->get('/{id}/unread', 'App\Api\V1\Controllers\ChatController@getUnreadMessages');
 	});
 
 	$api->group(['prefix' => 'users'], function($api){
