@@ -9,6 +9,9 @@ $api->version('v1', function ($api) {
 	$api->post('auth/recovery', 'App\Api\V1\Controllers\AuthController@recovery');
 	$api->post('auth/reset', 'App\Api\V1\Controllers\AuthController@reset');
 
+	$api->post('auth/phone/login', 'App\Api\V1\Controllers\AuthController@loginWithPhone');
+	$api->post('auth/phone/signup', 'App\Api\V1\Controllers\AuthController@signupWithPhone');
+
 	// example of protected route
 	$api->get('protected', ['middleware' => ['api.auth'], function () {		
 		return \App\User::all();

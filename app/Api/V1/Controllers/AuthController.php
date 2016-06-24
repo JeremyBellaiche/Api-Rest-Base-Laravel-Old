@@ -6,6 +6,7 @@ use JWTAuth;
 use Validator;
 use Config;
 use App\User;
+use App\Models\Device;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Dingo\Api\Routing\Helpers;
@@ -74,6 +75,7 @@ class AuthController extends Controller
               'name'  =>  'Pack Minutes'
             ]
           ],
+          'devices' => \Auth::user()->getDevices,
           'token' => $token,
         ]);
     }
@@ -162,5 +164,71 @@ class AuthController extends Controller
             default:
                 return $this->response->error('could_not_reset_password', 500);
         }
+    }
+
+
+    public function loginWithPhone(Request $request){
+      $credentials = $request->only(['phone_number', 'country_code', 'password']);
+
+      $validator = Validator::make($credentials, [
+          'phone_number' => 'required',
+          'country_code' => 'required',
+          'password' => 'required',
+      ]);
+
+      if($validator->fails()) {
+          throw new ValidationHttpException($validator->errors()->all());
+      }
+
+      // Get user data from phone
+      $device = Device::where([
+        'phone_number'  =>  $request->get('phone_number'),
+        'country_code'  =>  $request->get('country_code'),
+      ])->with(['getUser'])->firstOrFail();
+
+      $request['email'] = $device->getUser->email;
+
+      return $this->login($request);
+    }
+
+    public function signupWithPhone(Request $request){
+      // Step 1 : Validator
+      $credentials = $request->only(['phone_number', 'country_code', 'password']);
+
+      $validator = Validator::make($credentials, [
+          'country_code' => 'required',
+          'phone_number' => 'required',
+          'password' => 'required',
+      ]);
+
+      $checkIfExist = Device::where([
+        'phone_number'  => $request->get('phone_number'),
+        'country_code'  => $request->get('country_code')
+      ])->first();
+
+      if($checkIfExist){
+        return json_encode([
+            'message' => 'The phone already exist, please try to login or recover your password'
+        ]);
+      }
+      
+      // Step 2 : create fake email
+      $fakeEmail = $request->get('country_code').'-'.$request->get('phone_number').'@engagementplatform.com';
+      $request['email'] = $fakeEmail;
+
+      // Step 3 : Create account
+      $user = User::create([
+        'email' => $fakeEmail,
+        'password' => $request->get('password'),
+      ]);
+
+      // Step 4 : Create Device
+      $device = Device::create([
+        'fk_user_id'    =>  $user->id,
+        'country_code'  =>  $request->get('country_code'),
+        'phone_number'  =>  $request->get('phone_number')
+      ]);
+
+      return $this->login($request);
     }
 }

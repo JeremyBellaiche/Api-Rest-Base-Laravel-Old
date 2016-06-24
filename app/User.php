@@ -82,5 +82,9 @@ class User extends Authenticatable
     {
         return strtotime($date);
     }
+
+    public function getDevices(){
+        return $this->hasMany('\App\Models\Device', 'fk_user_id', 'id');
+    }
     
 }
