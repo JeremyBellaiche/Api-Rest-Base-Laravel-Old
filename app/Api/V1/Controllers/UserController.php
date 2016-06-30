@@ -46,7 +46,7 @@ class UserController extends Controller
         ->orWhere('lname', 'LIKE', '%'.$request->get('query').'%')
         ->get();
 
-        return $response;
+        return json_encode($response);
 
     }
 

@@ -123,7 +123,7 @@ class ChatController extends Controller
           'users'   =>  $usersInChat
         ];
 
-        return $response;
+        return json_encode($response);
 
 	}
 
