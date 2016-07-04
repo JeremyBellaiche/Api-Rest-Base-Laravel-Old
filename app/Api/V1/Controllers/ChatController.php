@@ -165,10 +165,10 @@ class ChatController extends Controller
         return response()->json($message);
     }
 
-    public function getUnreadMessages(Request $request, $id){
+    public function getUnreadMessages(Request $request, $chatId, $lastMessageSeen){
         // $currentUser = JWTAuth::parseToken()->authenticate();
 
-        $chat = Chat::where('id', $id)->with('messages')->first();
+        $chat = Chat::where('id', $chatId)->with('messages')->first();
 
         if(!$chat){
             return response()->json([
@@ -176,16 +176,11 @@ class ChatController extends Controller
             ]);
         }
 
-        $lastMessageSeen = Chat_User::where([
-            'fk_chat_id'    =>  $id,
-            'fk_user_id'    =>  '5'
-        ])->firstOrFail()->fk_last_message_seen;
-
         if(!$lastMessageSeen){
             $lastMessageSeen = 0;
         }
 
-        $response = Message::where('id', '>', $lastMessageSeen)->where('fk_chat_id', $id)->get();
+        $response = Message::where('id', '>', $lastMessageSeen)->where('fk_chat_id', $chatId)->get();
         return response()->json($response);
     }
 
