@@ -186,7 +186,7 @@ class ChatController extends Controller
         }
 
         $response = Message::where('id', '>', $lastMessageSeen)->where('fk_chat_id', $id)->get();
-        return json_encode($response);
+        return response()->json($response);
     }
 
 }
