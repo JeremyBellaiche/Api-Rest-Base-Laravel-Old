@@ -26,10 +26,10 @@ class UserController extends Controller
                 'message' => 'Users can\'t be found'
             ];
 
-            return json_encode($error);
+            return response()->json($error);
         }
 	        
-		return json_encode($response);
+		return response()->json($response);
 
     }
 
@@ -39,14 +39,14 @@ class UserController extends Controller
             $error = [
                 'message'   =>  'Query parameter is missing'
             ];
-            return json_encode($error);
+            return response()->json($error);
         }
 
         $response = User::where('fname', 'LIKE', '%'.$request->get('query').'%')
         ->orWhere('lname', 'LIKE', '%'.$request->get('query').'%')
         ->get();
 
-        return json_encode($response);
+        return response()->json($response);
 
     }
 

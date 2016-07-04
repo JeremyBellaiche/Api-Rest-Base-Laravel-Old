@@ -31,7 +31,7 @@ class ChatController extends Controller
             array_push($chats, $user['chat']);
         }
 
-	    return json_encode($chats);
+	    return response()->json($chats);
 
 	}
 
@@ -47,10 +47,10 @@ class ChatController extends Controller
                 'message' => 'Chat can\'t be found'
             ];
 
-            return json_encode($error);
+            return response()->json($error);
         }
 
-		return json_encode($response);
+		return response()->json($response);
 
 
 	}
@@ -123,7 +123,7 @@ class ChatController extends Controller
           'users'   =>  $usersInChat
         ];
 
-        return json_encode($response);
+        return response()->json($response);
 
 	}
 
@@ -135,7 +135,7 @@ class ChatController extends Controller
             $error = [
                 'message' => 'Message must be added'
             ];
-            return json_encode($error);
+            return response()->json($error);
         }
 
         $chat = Chat::findOrFail($chatId);
@@ -162,7 +162,7 @@ class ChatController extends Controller
         // Trigger
         Chat_User::where(['fk_chat_id' => $chatId, 'fk_user_id' => $currentUser->id])->update(['fk_last_message_seen' => $message->id]);
 
-        return json_encode($message);
+        return response()->json($message);
     }
 
     public function getUnreadMessages(Request $request, $id){

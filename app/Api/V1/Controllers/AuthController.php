@@ -207,7 +207,7 @@ class AuthController extends Controller
       ])->first();
 
       if($checkIfExist){
-        return json_encode([
+        return response()->json([
             'message' => 'The phone already exist, please try to login or recover your password'
         ]);
       }

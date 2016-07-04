@@ -24,7 +24,7 @@ class ContactController extends Controller
 
         $invitations = [];
 
-	    return json_encode($currentUser);
+	    return response()->json($currentUser);
     }
 
     public function createRequest(Request $request){
@@ -36,7 +36,7 @@ class ContactController extends Controller
     		'status'			   => 'waiting'
     	]);
 
-    	return json_encode($req);
+    	return response()->json($req);
     }
 
     public function setRequest($id, $status){
@@ -46,7 +46,7 @@ class ContactController extends Controller
     	$req->status = $status;
     	$req->save();
 
-    	return json_encode($req);
+    	return response()->json($req);
     }
 
     public function index(){
@@ -54,7 +54,7 @@ class ContactController extends Controller
 	        ->contacts()
 	        ->toArray();
 
-	    return json_encode($currentUser);
+	    return response()->json($currentUser);
 
     }
 
@@ -64,7 +64,7 @@ class ContactController extends Controller
 		$contact = Contact::findOrFail($id);
 		$contact->delete();
 
-        return json_encode([
+        return response()->json([
             'message' => 'Contact has been deleted'
         ]);
 	}
